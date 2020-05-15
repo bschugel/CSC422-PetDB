@@ -26,7 +26,7 @@ public class PetSearch {
 				
 				input = sc.nextInt();              
 				if(input>0&&input<8) {
-					System.out.println("ok");
+					System.out.println(); //create new line
 					loop2=false;
 				}
 				else {
@@ -38,26 +38,41 @@ public class PetSearch {
 			
 			switch(input) {			//Menu input selection switch
 			case 1:
-				System.out.println("View all pets here");
+				System.out.println("+-------------------------+");
+				System.out.printf("%1s %4s %1s %10s %1s %3s %1s\n","|", "ID","|","NAME","|","AGE","|");
+				System.out.println("+-------------------------+");
 				for(int i=0; i<petCount; i++) {
-					System.out.println("Name: "+pets[i].getName()+"  Age: "+pets[i].getAge());
+					//System.out.println("Name: "+pets[i].getName()+"  Age: "+pets[i].getAge());
+					System.out.printf("%1s %4s %1s %10s %1s %3s %1s\n","|", i,"|",pets[i].getName(),"|",pets[i].getAge(),"|");
 				}
+				System.out.println("+-------------------------+");
+				System.out.println(petCount+" rows in set.\n");
 				break;
 			case 2:
+				int petsAdded=0;
+				boolean loop3=true;
 				if(sc.hasNextLine()) {
 					sc.nextLine();
 				}
-				System.out.println("Add pet here");
-				
-				System.out.println("Input name");
-				String nameInput = sc.nextLine();
-				System.out.println("Input age");
-				int ageInput = sc.nextInt();
-				pets[petCount]= new Pet();
-				pets[petCount].setName(nameInput);
-				pets[petCount].setAge(ageInput);
-				System.out.println("Name: "+pets[petCount].getName()+"  Age: "+pets[petCount].getAge());
-				petCount++;
+				while(loop3) {
+					
+
+					System.out.print("add pet (name, age): ");
+					String petInput = sc.nextLine();
+					if(petInput.compareTo("done")==0) {
+						loop3=false;
+						System.out.println(petsAdded+" pets added.\n");
+						break;
+					}
+					
+					String[] petInputArr = petInput.split(" ", 2);
+					pets[petCount]= new Pet();
+					pets[petCount].setName(petInputArr[0]);
+					pets[petCount].setAge(Integer.parseInt(petInputArr[1]));
+					petCount++;
+					petsAdded++;
+					
+				}
 				break;
 			case 3:
 				System.out.println("Update pet TODO");	//Release 3
