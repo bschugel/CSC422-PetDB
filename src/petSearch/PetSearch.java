@@ -39,20 +39,13 @@ public class PetSearch {
 			
 			switch(input) {			//Menu input selection switch
 			case 1:
-				tableStart();
-				for(int i=0; i<petCount; i++) {
-					tableMiddle(i);
-				}
-				tableEnd();
-				System.out.println(petCount+" rows in set.\n");
+				fullTable();
 				break;
 			case 2:
 				int petsAdded=0;
 				boolean loop3=true;
 				clearLine(sc);
 				while(loop3) {
-					
-
 					System.out.print("add pet (name, age): ");
 					String petInput = sc.nextLine();
 					if(petInput.compareToIgnoreCase("done")==0) {
@@ -71,10 +64,24 @@ public class PetSearch {
 				}
 				break;
 			case 3:
-				System.out.println("Update pet TODO");	//Release 3
+				clearLine(sc);
+				fullTable();
+				System.out.print("Enter the pet ID you want to update: ");	//Release 3
+				int id = sc.nextInt();
+				clearLine(sc);
+				System.out.print("Enter the new name and new age: ");
+				String petInput = sc.nextLine();
+				String[] petInputArr = petInput.split(" ", 2);
+				pets[id].setName(petInputArr[0]);
+				pets[id].setAge(Integer.parseInt(petInputArr[1]));
 				break;
 			case 4:
-				System.out.println("Remove pet TODO");	//Release 3
+				clearLine(sc);
+				fullTable();
+				System.out.print("Enter the pet ID to remove: ");	//Release 3
+				int r = sc.nextInt();
+				System.out.println(pets[r].getName()+" "+pets[r].getAge()+" is removed.");
+				removeElement(r);
 				break;
 			case 5:
 				clearLine(sc);
@@ -87,6 +94,7 @@ public class PetSearch {
 				petSearch(sc.nextInt());
 				break;
 			case 7:
+				System.out.println("Goodbye!");
 				System.exit(0);
 				break;
 			}
@@ -127,6 +135,25 @@ public class PetSearch {
 	}
 	static void tableEnd() {
 		System.out.println("+-------------------------+");
+	}
+	static void fullTable() {
+		tableStart();
+		for(int i=0; i<petCount; i++) {
+			tableMiddle(i);
+		}
+		tableEnd();
+		System.out.println(petCount+" rows in set.\n");
+	}
+	static void removeElement(int index) {
+		Pet petsTemp[] = new Pet[100];
+		for(int i=0;i<index;i++) {
+			petsTemp[i]=pets[i];
+		}
+		for(int i=(index+1);i<petCount;i++) {
+			petsTemp[i-1]=pets[i];
+		}
+		pets=petsTemp;
+		petCount--;
 	}
 }
 
