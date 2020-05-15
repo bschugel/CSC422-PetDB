@@ -9,7 +9,6 @@ public class PetSearch {
 		Scanner sc = new Scanner(System.in);
 		boolean loop = true;
 		boolean loop2 = true;
-		
 		int input=0;
 		System.out.println("Pet Database Program.\r\n");
 		while(loop) {

@@ -24,6 +24,5 @@ public class Pet {
 	public Pet (String initName, int initAge) {
 		name = initName;
 		age=initAge;
-
 	}
 }
