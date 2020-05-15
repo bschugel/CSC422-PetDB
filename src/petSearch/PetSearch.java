@@ -108,7 +108,6 @@ public class PetSearch {
 			}
 		}
 		tableEnd();
-		
 	}
 	static void petSearch(int age) {
 		tableStart();
