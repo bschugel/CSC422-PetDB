@@ -3,12 +3,13 @@ package petSearch;
 import java.util.Scanner;
 
 public class PetSearch {
+	static int petCount = 0;
+	static Pet pets[] = new Pet[100];
 	public static void main(String[] args) {
 		Scanner sc = new Scanner(System.in);
 		boolean loop = true;
 		boolean loop2 = true;
-		Pet pets[] = new Pet[100];
-		int petCount = 0;
+		
 		int input=0;
 		System.out.println("Pet Database Program.\r\n");
 		while(loop) {
@@ -19,7 +20,7 @@ public class PetSearch {
 				" 4) Remove an existing pet\r\n" + 
 				" 5) Search pets by name\r\n" + 
 				" 6) Search pets by age\r\n" + 
-				" 7) Exit program\r\n" + 
+				" 7) Exit program\r\n\n" + 
 				"Your choice: ");
 
 			while(loop2) {					//Continuous loop until valid input entered (No error checking on input type at the moment)
@@ -38,28 +39,23 @@ public class PetSearch {
 			
 			switch(input) {			//Menu input selection switch
 			case 1:
-				System.out.println("+-------------------------+");
-				System.out.printf("%1s %4s %1s %10s %1s %3s %1s\n","|", "ID","|","NAME","|","AGE","|");
-				System.out.println("+-------------------------+");
+				tableStart();
 				for(int i=0; i<petCount; i++) {
-					//System.out.println("Name: "+pets[i].getName()+"  Age: "+pets[i].getAge());
-					System.out.printf("%1s %4s %1s %10s %1s %3s %1s\n","|", i,"|",pets[i].getName(),"|",pets[i].getAge(),"|");
+					tableMiddle(i);
 				}
-				System.out.println("+-------------------------+");
+				tableEnd();
 				System.out.println(petCount+" rows in set.\n");
 				break;
 			case 2:
 				int petsAdded=0;
 				boolean loop3=true;
-				if(sc.hasNextLine()) {
-					sc.nextLine();
-				}
+				clearLine(sc);
 				while(loop3) {
 					
 
 					System.out.print("add pet (name, age): ");
 					String petInput = sc.nextLine();
-					if(petInput.compareTo("done")==0) {
+					if(petInput.compareToIgnoreCase("done")==0) {
 						loop3=false;
 						System.out.println(petsAdded+" pets added.\n");
 						break;
@@ -81,18 +77,57 @@ public class PetSearch {
 				System.out.println("Remove pet TODO");	//Release 3
 				break;
 			case 5:
-				System.out.println("Search by Name TODO");	//Release 2
+				clearLine(sc);
+				System.out.print("Enter a name to search: ");	//Release 2
+				petSearch(sc.nextLine());
 				break;
 			case 6:
-				System.out.println("Search by Age TODO");	//Release 2
+				clearLine(sc);
+				System.out.println("Enter age to search: ");	//Release 2
+				petSearch(sc.nextInt());
 				break;
 			case 7:
 				System.exit(0);
 				break;
 			}
 		}
-		
+
+	}
+	static void petSearch(String name) {
+		tableStart();
+		for(int i=0; i<petCount;i++) {
+			if(name.compareToIgnoreCase(pets[i].getName())==0) {
+				tableMiddle(i);
+			}
+		}
+		tableEnd();
 		
 	}
+	static void petSearch(int age) {
+		tableStart();
+		for(int i=0; i<petCount;i++) {
+			if(age==pets[i].getAge()) {
+				tableMiddle(i);
+			}
+		}
+		tableEnd();
+	}
+	static void clearLine(Scanner sc) {
+		if(sc.hasNextLine()) {
+			sc.nextLine();
+		}
+	}
+	static void tableStart() {
+		System.out.println("+-------------------------+");
+		System.out.printf("%1s %4s %1s %10s %1s %3s %1s\n","|", "ID","|","NAME","|","AGE","|");
+		System.out.println("+-------------------------+");
+	}
+	static void tableMiddle(int i) {
+		System.out.printf("%1s %4s %1s %10s %1s %3s %1s\n","|", i,"|",pets[i].getName(),"|",pets[i].getAge(),"|");
+	}
+	static void tableEnd() {
+		System.out.println("+-------------------------+");
+	}
 }
+
 
