@@ -23,7 +23,6 @@ public class PetSearch {
 				"Your choice: ");
 
 			while(loop2) {					//Continuous loop until valid input entered (No error checking on input type at the moment)
-				
 				input = sc.nextInt();              
 				if(input>0&&input<8) {
 					System.out.println(); //create new line
