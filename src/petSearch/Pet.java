@@ -1,6 +1,6 @@
 package petSearch;
 
-public class Pet implements java.io.Serializable{
+public class Pet{
 	private String name;
 	private int age;
 	

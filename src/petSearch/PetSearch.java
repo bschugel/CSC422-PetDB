@@ -2,14 +2,17 @@ package petSearch;
 
 import java.util.Scanner;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.FileWriter; 
+
 
 public class PetSearch implements java.io.Serializable{
 	static int petCount = 0;
 	static Pet pets[] = new Pet[100];
 	public static void main(String[] args) {
 		
-		
+		readFromFile();
 		Scanner sc = new Scanner(System.in);
 		boolean loop = true;
 		boolean loop2 = true;
@@ -71,6 +74,8 @@ public class PetSearch implements java.io.Serializable{
 				removeElement(r);
 				break;
 			case 4:			//Exit
+				saveToFile(pets);
+				readFromFile();
 				System.out.println("Goodbye!");
 				System.exit(0);
 				break;
@@ -119,6 +124,53 @@ public class PetSearch implements java.io.Serializable{
 		}
 		tableEnd();
 		System.out.println(petCount+" rows in set.\n");
+	}
+	static void createFile() {
+		try {
+		      File petFile = new File("petList.txt");
+		      if (petFile.createNewFile()) {
+		        System.out.println("File created: " + petFile.getName());
+		      } 
+		    } catch (IOException e) {
+		      System.out.println("An error occurred.");
+		      e.printStackTrace();
+		    }
+	}
+	
+	static void saveToFile(Pet pet[]) {
+		createFile();
+		try {
+		      FileWriter writer = new FileWriter("petList.txt");
+		      for(int i=0;i<petCount;i++)
+		    	  writer.write(pet[i].getName()+" "+pet[i].getAge()+"\n");
+		      writer.close();
+		    } catch (IOException e) {
+		      System.out.println("IOException");
+		      e.printStackTrace();
+		    }
+	}
+	static void readFromFile() {
+		 try {
+		      File inputFile = new File("petList.txt");
+		      Scanner sc = new Scanner(inputFile);
+		      int i=0;
+		      while (sc.hasNextLine()) {
+		        String data = sc.nextLine();
+		        String[] dataSplit = data.split(" ", 2);
+		        pets[i] = new Pet();
+		        pets[i].setName(dataSplit[0]);
+		        pets[i].setAge(Integer.parseInt(dataSplit[1]));
+		        System.out.println(data);
+		        i++;
+		        petCount++;
+		      }
+		      sc.close();
+		    } catch (FileNotFoundException e) {
+		      System.out.println("An error occurred.");
+		      e.printStackTrace();
+		    }
+		
+		
 	}
 	static void removeElement(int index) {
 		Pet petsTemp[] = new Pet[100];
