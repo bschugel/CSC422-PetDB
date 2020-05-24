@@ -6,6 +6,7 @@ public class PetSearch {
 	static int petCount = 0;
 	static Pet pets[] = new Pet[100];
 	public static void main(String[] args) {
+		
 		Scanner sc = new Scanner(System.in);
 		boolean loop = true;
 		boolean loop2 = true;
