@@ -1,11 +1,14 @@
 package petSearch;
 
 import java.util.Scanner;
+import java.io.File;
+import java.io.IOException;
 
-public class PetSearch {
+public class PetSearch implements java.io.Serializable{
 	static int petCount = 0;
 	static Pet pets[] = new Pet[100];
 	public static void main(String[] args) {
+		
 		
 		Scanner sc = new Scanner(System.in);
 		boolean loop = true;
@@ -16,11 +19,8 @@ public class PetSearch {
 		System.out.print("What would you like to do?\r\n" + 
 				" 1) View all pets\r\n" + 
 				" 2) Add more pets\r\n" + 
-				" 3) Update an existing pet\r\n" + 
-				" 4) Remove an existing pet\r\n" + 
-				" 5) Search pets by name\r\n" + 
-				" 6) Search pets by age\r\n" + 
-				" 7) Exit program\r\n\n" + 
+				" 3) Remove an existing pet\r\n" + 
+				" 4) Exit program\r\n\n" +
 				"Your choice: ");
 
 			while(loop2) {					//Continuous loop until valid input entered (No error checking on input type at the moment)
@@ -37,10 +37,10 @@ public class PetSearch {
 			loop2=true;
 			
 			switch(input) {			//Menu input selection switch
-			case 1:
+			case 1:		//view
 				fullTable();
 				break;
-			case 2:
+			case 2:		//Add
 				int petsAdded=0;
 				boolean loop3=true;
 				clearLine(sc);
@@ -62,19 +62,7 @@ public class PetSearch {
 					
 				}
 				break;
-			case 3:
-				clearLine(sc);
-				fullTable();
-				System.out.print("Enter the pet ID you want to update: ");	//Release 3
-				int id = sc.nextInt();
-				clearLine(sc);
-				System.out.print("Enter the new name and new age: ");
-				String petInput = sc.nextLine();
-				String[] petInputArr = petInput.split(" ", 2);
-				pets[id].setName(petInputArr[0]);
-				pets[id].setAge(Integer.parseInt(petInputArr[1]));
-				break;
-			case 4:
+			case 3:		//Remove
 				clearLine(sc);
 				fullTable();
 				System.out.print("Enter the pet ID to remove: ");	//Release 3
@@ -82,17 +70,7 @@ public class PetSearch {
 				System.out.println(pets[r].getName()+" "+pets[r].getAge()+" is removed.");
 				removeElement(r);
 				break;
-			case 5:
-				clearLine(sc);
-				System.out.print("Enter a name to search: ");	//Release 2
-				petSearch(sc.nextLine());
-				break;
-			case 6:
-				clearLine(sc);
-				System.out.println("Enter age to search: ");	//Release 2
-				petSearch(sc.nextInt());
-				break;
-			case 7:
+			case 4:			//Exit
 				System.out.println("Goodbye!");
 				System.exit(0);
 				break;
