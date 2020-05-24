@@ -1,0 +1,5 @@
+Kitty 7
+Fido 3
+Hunter 18
+Blue 4
+Foxy 12

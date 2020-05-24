@@ -1,5 +1,6 @@
 package petSearch;
 
+import java.util.InputMismatchException;
 import java.util.Scanner;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -27,14 +28,19 @@ public class PetSearch implements java.io.Serializable{
 				"Your choice: ");
 
 			while(loop2) {					//Continuous loop until valid input entered (No error checking on input type at the moment)
-				input = sc.nextInt();              
-				if(input>0&&input<8) {
+				try {
+					input = sc.nextInt();
+				} catch (InputMismatchException  e) {
+					System.out.println("Error: Invalid input");
+					clearLine(sc);
+				}
+				
+				if(input>0&&input<5) {
 					System.out.println(); //create new line
 					loop2=false;
 				}
 				else {
-					System.out.println("Please enter a value from 1 to 7\r\n"
-							+ "Your choice: ");
+					System.out.println("Error: Please enter a value between 1 and 4");
 				}
 			}
 			loop2=true;
@@ -45,23 +51,37 @@ public class PetSearch implements java.io.Serializable{
 				break;
 			case 2:		//Add
 				int petsAdded=0;
+				
 				boolean loop3=true;
 				clearLine(sc);
 				while(loop3) {
 					System.out.print("add pet (name, age): ");
 					String petInput = sc.nextLine();
+					if(petCount>=5) {
+						System.out.println("Error: Database is full");
+						System.out.println(petsAdded+" pets added.\n");
+						break;
+					}
 					if(petInput.compareToIgnoreCase("done")==0) {
 						loop3=false;
 						System.out.println(petsAdded+" pets added.\n");
 						break;
 					}
 					
-					String[] petInputArr = petInput.split(" ", 2);
-					pets[petCount]= new Pet();
-					pets[petCount].setName(petInputArr[0]);
-					pets[petCount].setAge(Integer.parseInt(petInputArr[1]));
-					petCount++;
-					petsAdded++;
+					String[] petInputArr = petInput.split(" ", 3);
+					if(petInputArr.length!=2||petInputArr[1]=="") {
+						System.out.println("Error: "+petInput+" is not a valid input.");
+					}
+					else if(!(Integer.parseInt(petInputArr[1])>=0)||!(Integer.parseInt(petInputArr[1])<=20)) {
+						System.out.println("Error: "+petInputArr[1]+" is not a valid age.");
+					}
+					else {
+						pets[petCount]= new Pet();
+						pets[petCount].setName(petInputArr[0]);
+						pets[petCount].setAge(Integer.parseInt(petInputArr[1]));
+						petCount++;
+						petsAdded++;
+					}
 					
 				}
 				break;
@@ -70,12 +90,15 @@ public class PetSearch implements java.io.Serializable{
 				fullTable();
 				System.out.print("Enter the pet ID to remove: ");	//Release 3
 				int r = sc.nextInt();
+				if(r<0||r>=petCount) {
+					System.out.println("Error: ID "+r+" does not exist.");
+					break;
+				}
 				System.out.println(pets[r].getName()+" "+pets[r].getAge()+" is removed.");
 				removeElement(r);
 				break;
 			case 4:			//Exit
 				saveToFile(pets);
-				readFromFile();
 				System.out.println("Goodbye!");
 				System.exit(0);
 				break;
@@ -160,7 +183,6 @@ public class PetSearch implements java.io.Serializable{
 		        pets[i] = new Pet();
 		        pets[i].setName(dataSplit[0]);
 		        pets[i].setAge(Integer.parseInt(dataSplit[1]));
-		        System.out.println(data);
 		        i++;
 		        petCount++;
 		      }
